@@ -71,6 +71,45 @@ research-dashboard --dry-run
 - **Bottom-mid-right** -- Temperatures, GPU stats, RAID status, disk usage
 - **Bottom-right** -- Live log tailing from `/tmp/*.log`
 
+### Tool detection + fallback
+
+```mermaid
+flowchart LR
+    START[research-dashboard CLI]
+    TMUX{tmux present?}
+    ERR[Exit with error]
+
+    subgraph DET[Detect and fall back per pane]
+      G1[nvtop] --> G2[nvidia-smi watch] --> G3[skip GPU pane]
+      P1[htop] --> P2[btop] --> P3[top]
+      D1[iotop] --> D2[iostat] --> D3[skip disk pane]
+      N1[nethogs] --> N2[nload] --> N3[proc/net/dev]
+      S1[sensors] --> S2[temp files] --> S3[skip temps]
+    end
+
+    LAY[Build tmux layout<br/>6 panes]
+    LAUNCH[Attach session]
+
+    START --> TMUX
+    TMUX -->|no| ERR
+    TMUX -->|yes| DET
+    G3 --> LAY
+    P3 --> LAY
+    D3 --> LAY
+    N3 --> LAY
+    S3 --> LAY
+    LAY --> LAUNCH
+
+    classDef start fill:#e3f2fd,stroke:#1565c0;
+    classDef check fill:#fff3e0,stroke:#e65100;
+    classDef err fill:#ffcdd2,stroke:#b71c1c;
+    classDef ok fill:#c8e6c9,stroke:#1b5e20;
+    class START,TMUX start;
+    class G1,G2,G3,P1,P2,P3,D1,D2,D3,N1,N2,N3,S1,S2,S3 check;
+    class ERR err;
+    class LAY,LAUNCH ok;
+```
+
 ## Requirements
 
 - **tmux** (required)

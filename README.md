@@ -4,6 +4,7 @@
 [![CI](https://github.com/ahbond/research-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/ahbond/research-dashboard/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20660171.svg)](https://doi.org/10.5281/zenodo.20660171)
 
 A tmux-based system monitoring dashboard for ML research workstations. One command gives you GPU, CPU, disk I/O, network, temperatures, RAID status, and live log tailing in a single terminal.
 
